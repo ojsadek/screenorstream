@@ -57,12 +57,13 @@
     justify-content: space-between;
     align-items: center;
     transition: all 0.3s ease;
-}
+    } 
 
     .logo {
         height: 40px;  /* Adjust this value to fit your design */
         width: auto;
         transition: all 0.3s ease;
+        margin-bottom: 0; 
     }
     .nav-links {
         display: flex;
@@ -87,8 +88,9 @@
     }
 
     .header-scrolled .logo {
-    height: 30px; /* THIS STEP IS OPTIONAL - CONSIDER REMOVING IF YOU WANT - Makes logo slightly smaller when scrolled */
+    height: 30px;   /* OPTIONAL - THIS STEP makes logo slightly smaller when scrolled */
     }
+
     .nav-links a:hover {
         color: var(--accent-color);
     }
@@ -392,23 +394,39 @@
         .filter-btn.active.all { background-color: rgb(216, 120, 17); }
 
         @media screen and (max-width: 768px) {
-    nav {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+                    header {
+                padding: 10px 0; /* Reduce padding for mobile */
+            }
 
-    .nav-links {
-        flex-direction: column;
-        align-items: flex-start;
-        width: 100%;
-    }
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
 
-    .nav-links a {
-        width: 100%;
-        padding: 10px 0;
-        border-top: 1px solid #e0e0e0;
-    }
-}
+            .logo {
+                height: 30px; /* Slightly smaller logo for mobile */
+                margin-bottom: 10px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                gap: 10px;
+                width: 100%;
+            }
+
+            .nav-links a {
+                font-size: 0.9rem; /* Slightly smaller font for mobile */
+            }
+
+            .header-scrolled {
+                padding: 5px 0;
+            }
+
+            .header-scrolled .logo {
+                height: 25px;
+            }
+        }
     </style>
 </head>
 <body>
