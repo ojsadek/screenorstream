@@ -43,6 +43,7 @@
             top: 0;
             z-index: 1000;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: padding 0.3s ease;
         }
         nav {
             display: flex;
@@ -50,20 +51,43 @@
             align-items: center;
             flex-wrap: wrap;
         }
+
+        .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
     .logo {
         height: 40px;  /* Adjust this value to fit your design */
         width: auto;
-        margin-bottom: 10px;
+        transition: all 0.3s ease;
     }
     .nav-links {
         display: flex;
         gap: 20px;
+        transition: opacity 0.3s ease, transform 0.3s ease;
     }
     .nav-links a {
         color: var(--text-color);
         text-decoration: none;
         font-weight: 400;
         transition: color 0.3s ease;
+    }
+
+    .header-scrolled .nav-links {
+    opacity: 0;
+    transform: translateY(-100%);
+    pointer-events: none;
+    }
+
+    .header-scrolled {
+    padding: 10px 0; /* Reduce padding when scrolled */
+    }
+
+    .header-scrolled .logo {
+    height: 30px; /* THIS STEP IS OPTIONAL - CONSIDER REMOVING IF YOU WANT - Makes logo slightly smaller when scrolled */
     }
     .nav-links a:hover {
         color: var(--accent-color);
@@ -389,7 +413,7 @@
 </head>
 <body>
         <header>
-            <nav class="container">
+            <div class="container header-content"> 
                 <img src="logo3.png" alt="Screen or Stream logo" class="logo">
                 <div class="nav-links">
                     <a href="#" onclick="return false;">Home</a>
@@ -397,7 +421,7 @@
                     <a href="#" onclick="return false;">About</a>
                     <a href="#" onclick="return false;">Contact</a>
                 </div>
-            </nav>
+            </div>
         </header>
         <section class="hero">
             <div class="hero-background"></div>
@@ -560,10 +584,20 @@
             heroBackground.style.transform = 'translateY(' + scrollPosition * 0.5 + 'px)';
         }
 
+        function handleScroll() {
+    const header = document.querySelector('header');
+    if (window.scrollY > 50) { // Adjust this value as needed
+        header.classList.add('header-scrolled');
+    } else {
+        header.classList.remove('header-scrolled');
+    }
+    }
+
         document.addEventListener('DOMContentLoaded', function() {
             document.body.classList.add('loaded');
             renderMovies(); // This line ensures that movies are rendered when the page loads
             parallax();
+            window.addEventListener('scroll', handleScroll);
         });
 
         window.addEventListener('scroll', parallax);
