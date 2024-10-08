@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Discover your next watch with ScreenOrStream. Vote on how you'd prefer to watch the latest movies!">
+    <title>ScreenOrStream - Discover Your Next Watch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+        --primary-color: #F5F5F5;
+        --secondary-color: #E0E0E0;
+        --accent-color: #9E9E9E;
+        --text-color: #333333;
+        --background-color: #FFFFFF;
+        --screen-color: #4CAF50;
+        --stream-color: #2196F3;
+        --skip-color: #FF5252;
+    }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    html {
+        scroll-behavior: smooth;
+    }
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+        header {
+        background-color: var(--primary-color);
+        padding: 20px 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-color);
+    }
+    .nav-links {
+        display: flex;
+        gap: 20px;
+    }
+    .nav-links a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 400;
+        transition: color 0.3s ease;
+    }
+    .nav-links a:hover {
+        color: var(--accent-color);
+    }
+
+    .hero {
+        height: 60vh;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: var(--primary-color);
+    }
+
+    .hero-background {
+    position: absolute;
+    top: -20px; /* Adjust this value to control the parallax intensity */
+    left: 0;
+    width: 100%;
+    height: calc(100% + 40px); /* Adjust this value as well */
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/cinema1.jpeg') no-repeat center center/cover;
+    z-index: -1;
+    }
+
+    .hero-content {
+    position: relative;
+    z-index: 1;
+    }
+
+    .hero-content h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+    .hero-content p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
+    .cta-button {
+        background-color: rgb(216, 120, 17, 0.8);
+        color: var(--primary-color);
+        padding: 12px 24px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.5s ease;
+    }
+    .cta-button:hover {
+        background-color: rgb(216, 120, 17, 1);
+    }
+
+    .movies-section {
+        padding: 50px 0;
+        background-color: var(--secondary-color);
+    }
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        text-align: center;
+        color: var(--text-color);
+    }
+    .section-subtitle {
+        font-size: 1rem;
+        margin-bottom: 30px;
+        text-align: center;
+        color: var(--accent-color);
+    }
+    .movie-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 30px;
+    }
+    .movie-card {
+    position: relative;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 -4px 6px rgba(0,0,0,0.1);
+}
+.movie-card:hover {
+    transform: translateY(20px);
+}
+
+.movie-card.voted .movie-poster {
+    opacity: 0.3;
+}
+
+.movie-card.voted .vote-overlay {
+    opacity: 1;
+}
+
+.movie-card.voted:hover {
+    transform: none;
+}
+
+.movie-card.voted:hover .movie-poster {
+    transform: none;
+}
+
+.movie-card.screen:hover {
+    box-shadow: 0 -30px 50px rgba(76, 175, 80, 0.7);
+}
+
+.movie-card.stream:hover {
+    box-shadow: 0 -30px 50px rgba(33, 150, 243, 0.7);
+}
+
+.movie-card.skip:hover {
+    box-shadow: 0 -30px 50px rgba(255, 82, 82, 0.7);
+}
+
+        footer {
+        background-color: var(--primary-color);
+        color: var(--text-color);
+        text-align: center;
+        padding: 20px 0;
+        margin-top: 50px;
+    }
+
+    /* Additional styles for movie cards */
+    .movie-card.screen {
+    box-shadow: 0 -15px 25px rgba(76, 175, 80, 1.0);
+}
+
+.movie-card.stream {
+    box-shadow: 0 -15px 25px rgba(33, 150, 243, 1.0);
+}
+
+.movie-card.skip {
+    box-shadow: 0 -15px 25px rgba(255, 82, 82, 1.0);
+}
+    .movie-poster-container {
+        position: relative;
+        overflow: hidden;
+        height: 330px;
+    }
+    .movie-poster {
+        width: 100%;
+        height: 330px;
+        object-fit: cover;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .movie-card:hover .movie-poster {
+        transform: scale(1.05);
+    }
+    .movie-info {
+        padding: 15px;
+        background-color: var(--primary-color);
+    }
+    .movie-title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: var(--text-color);
+    }
+    .movie-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+        color: var(--accent-color);
+        margin-bottom: 10px;
+    }
+    .vote-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    }
+
+    .vote-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.vote-overlay p {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.voted .movie-poster {
+    opacity: 0.3;
+}
+
+.voted .vote-overlay {
+    opacity: 1;
+}
+.vote-btn {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.vote-btn.screen { background-color: var(--screen-color); color: white; }
+.vote-btn.stream { background-color: var(--stream-color); color: white; }
+.vote-btn.skip { background-color: var(--skip-color); color: white; }
+
+.vote-count {
+    background-color: rgba(255,255,255,0.2);
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+}
+
+.vote-btn.selected {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.vote-btn.inverted {
+    background-color: white;
+    border: 2px solid;
+}
+
+.vote-btn.inverted.screen {
+    color: var(--screen-color);
+    border-color: var(--screen-color);
+}
+
+.vote-btn.inverted.stream {
+    color: var(--stream-color);
+    border-color: var(--stream-color);
+}
+
+.vote-btn.inverted.skip {
+    color: var(--skip-color);
+    border-color: var(--skip-color);
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.vote-btn.selected {
+    animation: pulse 1.0s ease-in-out;
+}
+
+
+.filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+        }
+
+        .filter-btn.screen-worthy { border: 2px solid var(--screen-color); }
+        .filter-btn.wait-stream { border: 2px solid var(--stream-color); }
+        .filter-btn.skip-movie { border: 2px solid var(--skip-color); }
+        .filter-btn.all { border: 2px solid rgb(216, 120, 17); }
+
+        .filter-btn.active.screen-worthy { background-color: var(--screen-color); }
+        .filter-btn.active.wait-stream { background-color: var(--stream-color); }
+        .filter-btn.active.skip-movie { background-color: var(--skip-color); }
+        .filter-btn.active.all { background-color: rgb(216, 120, 17); }
+    </style>
+</head>
+<body>
+        <header>
+            <nav class="container">
+                <div class="logo">ScreenOrStream</div>
+                <div class="nav-links">
+                    <a href="#" onclick="return false;">Home</a>
+                    <a href="#" onclick="return false;">Movies</a>
+                    <a href="#" onclick="return false;">About</a>
+                    <a href="#" onclick="return false;">Contact</a>
+                </div>
+            </nav>
+        </header>
+        <section class="hero">
+            <div class="hero-background"></div>
+            <div class="hero-content">
+                <h1>Discover Your Next Watch</h1>
+                <p>Screen, Stream, or Skip? You decide.</p>
+                <button class="cta-button" onclick="scrollToMovies()">Start Exploring</button>
+            </div>
+        </section>
+
+        <section id="movies-section" class="movies-section">
+            <div class="container">
+                <h2 class="section-title">Now Playing</h2>
+                <p class="section-subtitle">Vote on how you'd prefer to watch these movies!</p>
+                <div class="filter-buttons">
+                    <button class="filter-btn all active" onclick="filterMovies('all')">All</button>
+                    <button class="filter-btn screen-worthy" onclick="filterMovies('screen')">Screen-worthy</button>
+                    <button class="filter-btn wait-stream" onclick="filterMovies('stream')">Wait to Stream</button>
+                    <button class="filter-btn skip-movie" onclick="filterMovies('skip')">Skip this movie</button>
+                </div>
+                <div class="movie-grid" id="movie-grid">
+                    <!-- Movie cards will be dynamically inserted here by JavaScript -->
+                </div>
+            </div>
+        </section>
+        <!-- We'll add more content here in future steps -->
+
+        <footer>
+            <p>&copy; 2024 ScreenOrStream. All rights reserved.</p>
+        </footer>
+    <script>
+        const movies = [
+            { title: "Dune: Part Two", poster: "images/dune.jpg", year: 2024, rating: 8.6, screenVotes: 2245, streamVotes: 832, skipVotes: 123, userVote: null },
+            { title: "Godzilla x Kong: The New Empire", poster: "images/godzilla.jpg", year: 2024, rating: 7.0, screenVotes: 989, streamVotes: 1201, skipVotes: 2210, userVote: null },
+            { title: "A Quiet Place: Day One", poster: "images/quiet.jpg", year: 2024, rating: 7.5, screenVotes: 512, streamVotes: 1698, skipVotes: 789, userVote: null },
+            { title: "Furiosa: A Mad Max Saga", poster: "images/furiosa.jpg", year: 2024, rating: 7.8, screenVotes: 1245, streamVotes: 1932, skipVotes: 75, userVote: null },
+            { title: "Deadpool & Wolverine", poster: "images/deadpool.jpg", year: 2024, rating: 8.2, screenVotes: 1189, streamVotes: 2501, skipVotes: 302, userVote: null },
+            { title: "Inside Out 2", poster: "images/inside.jpg", year: 2024, rating: 7.4, screenVotes: 1012, streamVotes: 1998, skipVotes: 156, userVote: null }
+        ];
+
+        let currentFilter = 'all';
+
+        function renderMovies() {
+            const movieGrid = document.getElementById('movie-grid');
+            movieGrid.innerHTML = '';
+            movies.forEach((movie, index) => {
+                if (currentFilter === 'all' || 
+                    (currentFilter === 'screen' && movie.screenVotes === Math.max(movie.screenVotes, movie.streamVotes, movie.skipVotes)) ||
+                    (currentFilter === 'stream' && movie.streamVotes === Math.max(movie.screenVotes, movie.streamVotes, movie.skipVotes)) ||
+                    (currentFilter === 'skip' && movie.skipVotes === Math.max(movie.screenVotes, movie.streamVotes, movie.skipVotes))) {
+                    
+                    const movieCard = document.createElement('div');
+                    const winningVote = Math.max(movie.screenVotes, movie.streamVotes, movie.skipVotes);
+                    let winnerClass = '';
+                    if (winningVote === movie.screenVotes) winnerClass = 'screen';
+                    else if (winningVote === movie.streamVotes) winnerClass = 'stream';
+                    else if (winningVote === movie.skipVotes) winnerClass = 'skip';
+                    movieCard.className = `movie-card ${winnerClass}`;
+                    
+                    movieCard.innerHTML = `
+    <div class="movie-poster-container">
+        <img src="${movie.poster}" alt="${movie.title}" class="movie-poster">
+        <div class="vote-overlay">
+            <p>${movie.userVote ? `You voted to ${movie.userVote}!` : 'Thanks for voting!'}</p>
+        </div>
+    </div>
+    <div class="movie-info">
+        <h3 class="movie-title">${movie.title}</h3>
+        <div class="movie-meta">
+            <span>${movie.year}</span>
+            <span>⭐ ${movie.rating.toFixed(1)}</span>
+        </div>
+        <div class="vote-buttons">
+            <button class="vote-btn screen ${movie.userVote === 'screen' ? 'selected' : movie.userVote ? 'inverted' : ''}" onclick="vote(${index}, 'screen')">
+                Screen <span class="vote-count">${movie.screenVotes}</span>
+            </button>
+            <button class="vote-btn stream ${movie.userVote === 'stream' ? 'selected' : movie.userVote ? 'inverted' : ''}" onclick="vote(${index}, 'stream')">
+                Stream <span class="vote-count">${movie.streamVotes}</span>
+            </button>
+            <button class="vote-btn skip ${movie.userVote === 'skip' ? 'selected' : movie.userVote ? 'inverted' : ''}" onclick="vote(${index}, 'skip')">
+                Skip <span class="vote-count">${movie.skipVotes}</span>
+            </button>
+        </div>
+    </div>
+`;
+                    movieGrid.appendChild(movieCard);
+                }
+            });
+        }
+
+        function vote(movieIndex, voteType) {
+    const movie = movies[movieIndex];
+    const movieCard = document.querySelectorAll('.movie-card')[movieIndex];
+    const voteButtons = movieCard.querySelectorAll('.vote-btn');
+    const voteCount = movieCard.querySelector(`.vote-btn.${voteType} .vote-count`);
+
+    if (movie.userVote === voteType) {
+        // Deselecting the current vote
+        movie[voteType + 'Votes']--;
+        movie.userVote = null;
+        voteButtons.forEach(btn => btn.classList.remove('selected', 'inverted'));
+        movieCard.classList.remove('voted'); 
+    } else {
+        // Selecting a new vote
+        if (movie.userVote) {
+            // Remove previous vote
+            movie[movie.userVote + 'Votes']--;
+            movieCard.querySelector(`.vote-btn.${movie.userVote} .vote-count`).textContent = movie[movie.userVote + 'Votes'];
+        }
+        movie[voteType + 'Votes']++;
+        movie.userVote = voteType;
+        
+        voteButtons.forEach(btn => {
+            if (btn.classList.contains(voteType)) {
+                btn.classList.add('selected');
+                btn.classList.remove('inverted');
+            } else {
+                btn.classList.remove('selected');
+                btn.classList.add('inverted');
+            }
+        });
+
+        // Add the 'voted' class to the movie card
+        movieCard.classList.add('voted');
+        
+// comment: below is a function to remove the 'voted' class after 3 seconds:
+//       setTimeout(() => {
+//            movieCard.classList.remove('voted');
+//        }, 3000); 
+    }
+
+    // Update the vote count
+    voteCount.textContent = movie[voteType + 'Votes'];
+}
+
+
+        function filterMovies(filter) {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            
+            if (currentFilter === filter) {
+                currentFilter = 'all';
+                document.querySelector('.filter-btn.all').classList.add('active');
+            } else {
+                currentFilter = filter;
+                document.querySelector(`.filter-btn.${filter === 'screen' ? 'screen-worthy' : filter === 'stream' ? 'wait-stream' : filter === 'skip' ? 'skip-movie' : 'all'}`).classList.add('active');
+            }
+            
+            renderMovies();
+        }
+
+        function scrollToMovies() {
+            const moviesSection = document.getElementById('movies-section');
+            moviesSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function parallax() {
+            const heroBackground = document.querySelector('.hero-background');
+            let scrollPosition = window.pageYOffset;
+            heroBackground.style.transform = 'translateY(' + scrollPosition * 0.5 + 'px)';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('loaded');
+            renderMovies(); // This line ensures that movies are rendered when the page loads
+            parallax();
+        });
+
+        window.addEventListener('scroll', parallax);
+    </script>
+</body>
+</html>
