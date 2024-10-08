@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Discover your next watch with ScreenOrStream. Vote on how you'd prefer to watch the latest movies!">
+        <meta name="description" content="Discover your next watch with Screen Or Stream. Vote on how you'd prefer to watch the latest movies!">
     <title>ScreenOrStream - Discover Your Next Watch</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -37,22 +37,23 @@
         padding: 0 20px;
     }
         header {
-        background-color: var(--primary-color);
-        padding: 20px 0;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+            background-color: var(--primary-color);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
     .logo {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--text-color);
+        height: 40px;  /* Adjust this value to fit your design */
+        width: auto;
+        margin-bottom: 10px;
     }
     .nav-links {
         display: flex;
@@ -365,12 +366,31 @@
         .filter-btn.active.wait-stream { background-color: var(--stream-color); }
         .filter-btn.active.skip-movie { background-color: var(--skip-color); }
         .filter-btn.active.all { background-color: rgb(216, 120, 17); }
+
+        @media screen and (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .nav-links a {
+        width: 100%;
+        padding: 10px 0;
+        border-top: 1px solid #e0e0e0;
+    }
+}
     </style>
 </head>
 <body>
         <header>
             <nav class="container">
-                <div class="logo">ScreenOrStream</div>
+                <img src="logo3.png" alt="Screen or Stream logo" class="logo">
                 <div class="nav-links">
                     <a href="#" onclick="return false;">Home</a>
                     <a href="#" onclick="return false;">Movies</a>
@@ -406,7 +426,7 @@
         <!-- We'll add more content here in future steps -->
 
         <footer>
-            <p>&copy; 2024 ScreenOrStream. All rights reserved.</p>
+            <p>&copy; 2024 Screen or Stream. All rights reserved.</p>
         </footer>
     <script>
         const movies = [
