@@ -402,18 +402,27 @@
             margin-bottom: 20px;
         }
 
-        .filter-btn {
-            padding: 8px 30px;
-            margin: 0 4px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-            background-color: var(--primary-color);
-            color: var(--text-color);
-        }
+.filter-buttons-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+    justify-content: center; /* Center the buttons */
+    gap: 10px; /* Add space between buttons */
+    margin-bottom: 20px; /* Add some space below the buttons */
+}
+.filter-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    /* Remove fixed width to allow flexible sizing */
+    flex: 1 1 auto; /* Allow buttons to grow and shrink */
+    max-width: calc(50% - 5px); /* Ensure two buttons per row on very small screens */
+    white-space: nowrap; /* Prevent text from wrapping inside buttons */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis for long text */
+}
 
         .filter-btn:hover, .filter-btn.active {
             background-color: var(--accent-color);
@@ -434,6 +443,12 @@
                     header {
                 padding: 10px 0; /* Reduce padding for mobile */
             }
+
+        @media (min-width: 768px) {
+        .filter-btn {
+        max-width: none; /* Remove max-width constraint on larger screens */
+        }
+        }
 
             .header-content {
                 flex-direction: column;
@@ -496,6 +511,12 @@
                     <button class="filter-btn screen-worthy" onclick="filterMovies('screen')">Screen-worthy</button>
                     <button class="filter-btn wait-stream" onclick="filterMovies('stream')">Wait to Stream</button>
                     <button class="filter-btn skip-movie" onclick="filterMovies('skip')">Skip this movie</button>
+                    <div class="filter-buttons-container">
+                        <button class="filter-btn" data-filter="all" onclick="setFilter('all')">All</button>
+                        <button class="filter-btn" data-filter="screen" onclick="setFilter('screen')">Screen-worthy</button>
+                        <button class="filter-btn" data-filter="stream" onclick="setFilter('stream')">Wait to Stream</button>
+                        <button class="filter-btn" data-filter="skip" onclick="setFilter('skip')">Skip this movie</button>
+                    </div>
                 </div>
                 <div class="movie-grid" id="movie-grid">
                     <!-- Movie cards will be dynamically inserted here by JavaScript -->
